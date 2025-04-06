@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iduka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Fredoka', sans-serif;
+      background-color: #f7ead4;
+      color: #3e2f1c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 120px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 1rem;
+      color: #3e2f1c;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #5c4a33;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    input[type="email"] {
+      padding: 0.8rem 1rem;
+      border: 2px solid #cfa17f;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #f18701;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #d97300;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #a38c6c;
+    }
+  </style>
+</head>
+<body>
+  <img src="iduka.png" alt="Iduka logo" class="logo">
+  <h1>Kigali’s about to get something new.</h1>
+  <p>Don’t miss the drop — join now.</p>
+  <form id="waitlist-form">
+    <input type="email" name="email" placeholder="Enter your email" required>
+    <button type="submit">Join Waitlist</button>
+  </form>
+  <div class="footer">&copy; 2025 Iduka. Made with love in Rwanda.</div>
+
+  <script>
+    const { createClient } = supabase;
+    const supabaseUrl = 'https://rtibxwprihuaycmsoduk.supabase.co'; // Replace with your Supabase URL
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0aWJ4d3ByaWh1YXljbXNvZHVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM5NjA5MTAsImV4cCI6MjA1OTUzNjkxMH0.KW9TDKPsUPIlVPg0V079izrMm4yc_ALMU7EbERMNvM0'; // Replace with your Supabase anon key
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = e.target.email.value;
+
+      const { error } = await supabaseClient.from('waitlist').insert([{ email }]);
+
+      if (!error) {
+        window.location.href = 'thank_you.html';
+      } else {
+        alert('There was an error. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>
